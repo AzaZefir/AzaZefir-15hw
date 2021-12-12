@@ -1,0 +1,1 @@
+body{font-size:100px;display:flex;background:#ff0}span{font-size:20px}div{font-size:30px}@media (max-width:767px){span{font-size:15px}div{font-size:20px}}

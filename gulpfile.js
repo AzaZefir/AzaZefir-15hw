@@ -1,5 +1,5 @@
-
-let project_folder = require("path").basename(__dirname);
+// require("path").basename(__dirname)
+let project_folder = 'dist';
 let source_folder = "#src";
 
 // let fs = require('fs');
@@ -13,14 +13,14 @@ let path = {
         fonts: project_folder + "/fonts/",
     },
     src: {
-        html: [source_folder + "/*.html" , "!" + source_folder + "/_*.html"],
+        pug: source_folder + "/pug/*.pug",
         css: source_folder + "/scss/style.scss",
         js: source_folder + "/js/script.js",
         img: source_folder + "/img/**/*.{jpg,png,svg,gif,ico,webp}",
         fonts: source_folder + "/fonts/*.ttf",
     },
     watch: {
-        html: source_folder + "/**/*.html",
+        pug: source_folder + "/**/*.pug",
         css: source_folder + "/scss/**/*.scss",
         js: source_folder + "/js/**/*.js",
         img: source_folder + "/img/**/*.{jpg,png,svg,gif,ico,webp}",
@@ -41,15 +41,15 @@ let {src, dest } = require('gulp'),
     uglify = require("gulp-uglify-es").default,
     imagemin = require("gulp-imagemin"),
     webp = require("gulp-webp"),
-    webphtml = require("gulp-webp-html"),
-    webpcss = require("gulp-webpcss"),
+    // webphtml = require("gulp-webp-html"),
+    // webpcss = require("gulp-webpcss"),
     svgSprite = require("gulp-svg-sprite"),
-    ttf2woff = require("gulp-ttf2woff"),
-    ttf2woff2 = require("gulp-ttf2woff2");
+    // ttf2woff = require("gulp-ttf2woff"),
+    // ttf2woff2 = require("gulp-ttf2woff2"),
     // fonter = require("gulp-fonter");
     // imagemin = require("imagemin");
     // webp = require("gulp-webp");
-      // pug = require("gulp-pug");
+      pugs = require("gulp-pug");
     
 
 function browserSync(params) {
@@ -60,13 +60,14 @@ function browserSync(params) {
         port: 3000,
         notify: false
     })
-    // gulp.watch('hw15.1/**/*').on('change', browsersync.reload);
+    // gulp.watch('#src/**/*').on('change', browsersync.reload);
 }
 
-function html() {
-    return src(path.src.html)
-    .pipe(fileinclude())
-    .pipe(webphtml())
+function pug() {
+    return src(path.src.pug)
+    .pipe(pugs())
+    // .pipe(fileinclude())
+    // .pipe(webphtml())
     .pipe(dest(path.build.html))
     .pipe(browsersync.stream())
 }
@@ -87,7 +88,7 @@ function css(){
             cascade:true
         })
     )
-    .pipe(webpcss())
+    // .pipe(webpcss())
     .pipe(dest(path.build.css))
     .pipe(clean_css())
     .pipe(
@@ -137,22 +138,22 @@ function images() {
         .pipe(browsersync.stream())
 }
 
-function fonts(){
-    src(path.src.fonts)
-        .pipe(ttf2woff())
-        .pipe(dest(path.build.fonts));
-    return src(path.src.fonts)
-        .pipe(ttf2woff2())
-        .pipe(dest(path.build.fonts));
-}
+// function fonts(){
+//     src(path.src.fonts)
+//         .pipe(ttf2woff())
+//         .pipe(dest(path.build.fonts));
+//     return src(path.src.fonts)
+//         .pipe(ttf2woff2())
+//         .pipe(dest(path.build.fonts));
+// }
 
-gulp.task('otf2ttf', function(){
-    return src([source_folder + '/fonts/*.otf'])
-        .pipe(fonter({
-            formats: ['ttf']
-        }))
-        .pipe(dest(source_folder + '/fonts/'));
-})
+// gulp.task('otf2ttf', function(){
+//     return src([source_folder + '/fonts/*.otf'])
+//         .pipe(fonter({
+//             formats: ['ttf']
+//         }))
+//         .pipe(dest(source_folder + '/fonts/'));
+// })
 
 gulp.task('svgSprite', function(){
     return gulp.src([source_folder + '/icons/*.svg'])
@@ -194,7 +195,7 @@ gulp.task('svgSprite', function(){
 // }
 
 function watchFiles(params){
-    gulp.watch([path.watch.html], html);
+    gulp.watch([path.watch.pug], pug);
     gulp.watch([path.watch.css], css);
     gulp.watch([path.watch.js], js);
     gulp.watch([path.watch.img], images);
@@ -205,14 +206,14 @@ function clean (params) {
 }
 
 
-let build = gulp.series(clean, gulp.parallel(js, css, html, images, fonts));
-let watch = gulp.parallel(build,watchFiles,browserSync);
+let build = gulp.series(clean, gulp.parallel(js, css, pug, images));
+let watch = gulp.parallel(browserSync, build, watchFiles);
 
-exports.fonts = fonts;
+// exports.fonts = fonts;
 exports.images = images;
 exports.js = js;
 exports.css = css;
-exports.html = html;
+exports.pug = pug;
 exports.build = build;
 exports.watch = watch;
 exports.default = watch;
