@@ -43,13 +43,15 @@ let {src, dest } = require('gulp'),
     webp = require("gulp-webp"),
     // webphtml = require("gulp-webp-html"),
     // webpcss = require("gulp-webpcss"),
-    svgSprite = require("gulp-svg-sprite"),
+    spritesmith = require("gulp-spritesmith"),
     // ttf2woff = require("gulp-ttf2woff"),
     // ttf2woff2 = require("gulp-ttf2woff2"),
     // fonter = require("gulp-fonter");
     // imagemin = require("imagemin");
     // webp = require("gulp-webp");
-      pugs = require("gulp-pug");
+    pugs = require("gulp-pug"),
+    sourcemaps = require("gulp-sourcemaps"),
+    concat = require("gulp-concat");
     
 
 function browserSync(params) {
@@ -100,10 +102,16 @@ function css(){
     .pipe(browsersync.stream())
 }
 
-function js() {
+
+
+
+
+function js(){
     return src(path.src.js)
         .pipe(fileinclude())
         .pipe(dest(path.build.js))
+        .pipe(sourcemaps.init())
+        .pipe(concat('script.js'))
         .pipe(
             uglify()
         )
@@ -155,19 +163,29 @@ function images() {
 //         .pipe(dest(source_folder + '/fonts/'));
 // })
 
-gulp.task('svgSprite', function(){
-    return gulp.src([source_folder + '/icons/*.svg'])
-        .pipe(svgSprite({
-            mode: {
-                stack:{
-                    sprite: "../icons/icons.svg",
-                    example: true
-                }
-            },
-        }
-        ))
-        .pipe(dest(path.build.img))
-})
+// gulp.task('svgSprite', function(){
+//     return gulp.src([source_folder + '/icons/*.svg'])
+//         .pipe(svgSprite({
+//             mode: {
+//                 stack:{
+//                     sprite: "../icons/icons.svg",
+//                     example: true
+//                 }
+//             },
+//         }
+//         ))
+//         .pipe(dest(path.build.img))
+// })
+
+function sprite() {
+    return spriteData = gulp.src([source_folder + '/images/icons/*.png']).pipe(spritesmith({
+        imgName: 'sprite.png',
+        imgPath: '../img/sprite.png',
+        cssName: 'sprite.css'
+    }));
+    spriteData.img.pipe(gulp.dest('build/img/'));
+    spriteData.css.pipe(gulp.dest('source/styles/#src/'));
+};
 
 // function fontsStyle(params){
 //     let file_content = fs.readFileSync(source_folder + '/scss/fonts.scss');

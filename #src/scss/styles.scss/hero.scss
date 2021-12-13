@@ -1,0 +1,34 @@
+.hero {
+  min-height: 590px;
+  padding: 174px 0;
+  text-align: center;
+  color: #fff;
+  background: #ccc url("../img/hero-bg.jpg") center/cover no-repeat
+}
+
+.hero__about {
+  font-family: "helvatica-neue-bold";
+  font-size: 3rem;
+  line-height: 1
+}
+
+.hero__title {
+  margin-top: 0;
+  margin-bottom: 27px;
+  font-family: "helvetica-neue-light"
+}
+
+@media (max-width: 599px) {
+  .hero {
+      padding: 100px 20px;
+      min-height: inherit
+  }
+}
+
+.hero .button--text-uppercase {
+  padding: 21px 41px;
+  border-radius: 8px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px
+}

@@ -1,2 +1,22 @@
-header 
-    h1 шапка сайта aasddas sdfsdfs
+header.header
+  .header__top
+    .container
+      .contacts
+        a.contact(href='tel:+0707070670')
+            i.fa.fa-mobile.contact__icon(aria-hidden='true')
+            span.contact__text 0707070670
+        a.contact(href='mailto:info@business.co')
+            i.fa.fa-envelope.contact__icon.contact__icon--email(aria-hidden='true')
+            span.contact__text info@business.co
+        a.facebook-icon(href='facebook.com')
+            i.fa.fa-facebook(aria-hidden='true')
+  .container
+    .header__bottom
+      .logo
+        img.logo__picture(src='img/logo.png' alt='picture')
+      nav.nav
+        a.nav__link.nav__link--active(href='#' data-link='header') Home
+        a.nav__link(href='#' data-link='about') About us
+        a.nav__link(href='#' data-link='approach') Our Approch
+        a.nav__link(href='#' data-link='work') Our Work
+        a.button.header__button.button--red(href='#') Free Consultation

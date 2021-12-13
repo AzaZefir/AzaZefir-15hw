@@ -1,1 +1,1 @@
-alert('hello gulp')
+alert('hello world')
