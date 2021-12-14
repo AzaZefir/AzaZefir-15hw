@@ -40,6 +40,7 @@
     "source-map": "^0.7.3"
   },
   "dependencies": {
+    "normalize.scss": "^0.1.0",
     "webp-converter": "^2.2.3"
   }
 }
